@@ -15,17 +15,16 @@ import java.util.stream.Collectors;
 //@SpringBootApplication
 //public class RelationalDataAccessApplication implements CommandLineRunner {
 //
-//    private static final Logger log = LoggerFactory.getLogger(RelationalDataAccessApplication.class);
-//
-//    public static void main(String args[]) {
-//        SpringApplication.run(RelationalDataAccessApplication.class, args);
-//    }
-//
 //    @Autowired
 //    JdbcTemplate jdbcTemplate;
+//    private static final Logger log = LoggerFactory.getLogger(RelationalDataAccessApplication.class);
 //
-//    @Override
-//    public void run(String... strings) throws Exception {
+//    public RelationalDataAccessApplication(JdbcTemplate jdbcTemplate) {
+//        this.jdbcTemplate = jdbcTemplate;
+//    }
+//
+////    @Override
+//    public void getData(String... strings) throws Exception {
 //
 //        log.info("Creating tables");
 //

@@ -1,11 +1,21 @@
 package com.example.allureproject;
 
-public class Customer {
-    private long id;
-    private String firstName, lastName;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-    public Customer(long id, String firstName, String lastName) {
-        this.id = id;
+@Entity
+public class Customer {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+    private String firstName;
+    private String lastName;
+
+    protected Customer() {}
+
+    public Customer(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -17,24 +27,12 @@ public class Customer {
                 id, firstName, lastName);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getLastName() {

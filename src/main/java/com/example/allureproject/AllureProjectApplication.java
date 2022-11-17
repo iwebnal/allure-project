@@ -5,50 +5,51 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class AllureProjectApplication implements CommandLineRunner {
+public class AllureProjectApplication {
 
-	private static final Logger log = LoggerFactory.getLogger(AllureProjectApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(AllureProjectApplication.class);
 
-	public static void main(String args[]) {
-        SpringApplication.run(AllureProjectApplication.class, args);
-    }
+	public static void main(String args[]) {SpringApplication.run(AllureProjectApplication.class);}
 
-	@Autowired
-    JdbcTemplate jdbcTemplate;
+    @Bean
+    public CommandLineRunner demo(CustomerRepository repository) {
+        return (args) -> {
+            // save a few customers
+            repository.save(new Customer("Jack", "Bauer"));
+            repository.save(new Customer("Chloe", "O'Brian"));
+            repository.save(new Customer("Kim", "Bauer"));
+            repository.save(new Customer("David", "Palmer"));
+            repository.save(new Customer("Michelle", "Dessler"));
 
-    @Override
-    public void run(String... strings) throws Exception {
+            // fetch all customers
+            log.info("Customers found with findAll():");
+            log.info("-------------------------------");
+            for (Customer customer : repository.findAll()) {
+                log.info(customer.toString());
+            }
+            log.info("");
 
-        log.info("Creating tables");
+            // fetch an individual customer by ID
+            Customer customer = repository.findById(1L);
+            log.info("Customer found with findById(1L):");
+            log.info("--------------------------------");
+            log.info(customer.toString());
+            log.info("");
 
-        jdbcTemplate.execute("DROP TABLE customers IF EXISTS");
-        jdbcTemplate.execute("CREATE TABLE customers(" +
-                "id SERIAL, first_name VARCHAR(255), last_name VARCHAR(255))");
-
-        // Split up the array of whole names into an array of first/last names
-        List<Object[]> splitUpNames = Arrays.asList("John Woo", "Jeff Dean", "Josh Bloch", "Josh Long").stream()
-                .map(name -> name.split(" "))
-                .collect(Collectors.toList());
-
-        // Use a Java 8 stream to print out each tuple of the list
-        splitUpNames.forEach(name -> log.info(String.format("Inserting customer record for %s %s", name[0], name[1])));
-
-        // Uses JdbcTemplate's batchUpdate operation to bulk load data
-        jdbcTemplate.batchUpdate("INSERT INTO customers(first_name, last_name) VALUES (?,?)", splitUpNames);
-
-        log.info("Querying for customer records where first_name = 'Josh':");
-        jdbcTemplate.query(
-                "SELECT id, first_name, last_name FROM customers WHERE first_name = ?", new Object[] { "Josh" },
-                (rs, rowNum) -> new Customer(rs.getLong("id"), rs.getString("first_name"), rs.getString("last_name"))
-        ).forEach(customer -> log.info(customer.toString()));
+            // fetch customers by last name
+            log.info("Customer found with findByLastName('Bauer'):");
+            log.info("--------------------------------------------");
+            repository.findByLastName("Bauer").forEach(bauer -> {
+                log.info(bauer.toString());
+            });
+            // for (Customer bauer : repository.findByLastName("Bauer")) {
+            //  log.info(bauer.toString());
+            // }
+            log.info("");
+        };
     }
 
 }
