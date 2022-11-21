@@ -1,0 +1,38 @@
+.container-wrapper {
+    padding: 15px;
+    height: 100vh;
+}
+
+.tabs-box {
+    height: 100%;
+}
+
+.tabs-menu {
+    height: 100vh;
+}
+
+.content-wrapp {
+    height: 100vh;
+    width: 100%;
+}
+
+.buttons-wrapper {
+	height: 100%;
+}
+
+.nav-buttons {
+	box-sizing: border-box;
+	min-height: 100%;
+	padding-bottom: 90px;
+}
+
+.button-link {
+	height: 80px;
+	margin-top: -80px;
+}
+
+.arrow-reports {
+    display: inline-block;
+    width: 20px;
+    height: 15px;
+}

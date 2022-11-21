@@ -1,14 +1,21 @@
 import React, {useState, useEffect} from 'react';
-import logo from './logo.svg';
-import './App.css';
+import ReportsPage from './ReportsPage';
+import Report from './Report';
+import Home from './Home';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+} from 'react-router-dom';
 import axios from 'axios';
 
-const InfoData = () => {
 
+function App() {
   const [dataInfo, setDataInfo] = useState([]);
 
   const fetchInfoData = () => {
-    axios.get("http://localhost:8080/greeting")
+    axios.get("http://localhost:8080/reports")
       .then(res => {
         console.log(res);
         setDataInfo(res.data);
@@ -19,41 +26,17 @@ const InfoData = () => {
     fetchInfoData();
   }, [])
 
-  // return dataInfo.map((data, index) => {
-  //   return (
-  //     <div>
-  //       <div>{data.API}</div>
-  //       <span>{data.Description}</span>
-  //     </div>
-  //   )
-  // });
-
   return (
-    <div>
-      <div>{dataInfo.content}</div>
-      <div>{dataInfo.id}</div>
-    </div>
-  );
-}
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <InfoData />
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route exact path="/" element={<Home/>}/>
+          <Route exact path="/reportsPage" element={<ReportsPage data={dataInfo} />}/>
+          <Route exact path="/report" element={<Report />} />
+          {/* <Route path="*" element={<NotFound/>}/> */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

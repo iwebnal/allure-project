@@ -1,0 +1,31 @@
+.table-row:hover {
+    background: #e5e5e5;
+}
+
+.table-row {
+    cursor: pointer;
+    transition: background-color 0.25s ease-out 100ms
+}
+
+.row-name {
+    text-align: left;
+}
+
+.filter-box-left {
+    text-align: left;
+    padding: 0 0 20px 0;
+}
+
+.dropdown-box {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.dropdown-toggle {
+    border-radius: 0;
+}
+
+.filter-box-right {
+    text-align: right;
+    padding: 0 0 20px 0;
+}
